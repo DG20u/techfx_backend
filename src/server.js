@@ -3,6 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/database');
+const ticketRoutes = require('./routes/ticket.routes');
+const swaggerUi = require('swagger-ui-express');  
+const swaggerSpec = require('./swagger');
 
 // Importar rutas
 const authRoutes = require('./routes/auth.routes');
@@ -13,7 +16,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use('/api/tickets', ticketRoutes);
+// Documentación API  
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Conectar a la base de datos
 connectDB();
 
